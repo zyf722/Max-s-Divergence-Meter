@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+	body {background-color: black}
+	.num {
+		font-family:"BO NX Medium";
+		color: #F2AE3A;
+		font-size: 192px;
+		z-index: 3;
+		text-align: center;
+		padding: 75px 0;
+		text-shadow:
+			0 0 5px #f28430,
+			0 0 10px #f28430,
+			0 0 90px #f2ae79;
+
+	}
+	.frame { position: absolute; top: -10px; left:0; width: 100%; z-index: 0; font-family:"BO NX Frame"; color: #F2AE3A; opacity:0.4; font-size: 192px; text-align: center; padding: 75px 0; }
+	.glow { position: absolute; top: 0; left:0; width: 100%; z-index: 2; font-family:"BO NX Silhouette"; color: #DC2A1B; opacity:0.15; font-size: 192px; text-align: center; padding: 75px 0; }
+</style>
+<title>world.measure();</title>
+</head>
+<body onclick="switchMode()">
+<p class="num">
+0.123456
+<p class="frame">0.123456</p>
+<p class="glow">0.123456</p>
+</p>
+
+</body>
+<script type="text/javascript">
+
+var mode=1;
+var world=String(Math.random()).substr(0,8);
+
+function switchMode(){
+	if (mode<3) mode+=1;
+	else mode=1;
+	world=String(Math.random()).substr(0,8);
+}
+
+function setTime(){
+var date = new Date();
+var date1 = date.toLocaleString("en-CA").split(',')[0].replace(RegExp("-","g"),"");
+var date2 = date.toLocaleTimeString()
+var date3 = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+var num = document.getElementsByClassName("num")[0];
+console.log(date2)
+if (mode==2) { num.innerHTML = date1; }
+else if (mode==1) { num.innerHTML = date2; }
+else if (mode==3) { num.innerHTML = world; }
+}
+setInterval("setTime()",1000);
+
+</script>
+</html>
