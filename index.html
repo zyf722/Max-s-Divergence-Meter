@@ -3,8 +3,56 @@
 <head>
 <meta charset="utf-8">
 <style type="text/css">
+
+	@keyframes flicker {
+		0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+			opacity: 0.4;
+		}
+		20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+			opacity: 0.1;
+		}
+	}
+	
+	@keyframes flicker2 {
+		0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+			opacity: 0.14;
+		}
+		20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+			opacity: 0.03;
+		}
+	}
+
+	@keyframes fadein {
+	  from {opacity: 0;}
+	  to {opacity: 1.0;}
+	}
+	
+	@keyframes fadeout {
+	  from {opacity: 1.0;}
+	  to {opacity: 0;}
+	}
+
 	body {background-color: black}
+	
 	.num {
+		font-family:"BO NX Medium";
+		color: #F2AE3A;
+		font-size: 192px;
+		opacity: 0;
+		z-index: 3;
+		text-align: center;
+		padding: 75px 0;
+		text-shadow:
+			0 0 5px #f28430,
+			0 0 10px #f28430,
+			0 0 90px #f2ae79;
+		animation-name: fadein;
+		animation-duration: 1s;
+		animation-delay: 1.5s;
+		animation-fill-mode: forwards;
+	}
+	
+	.num-in {
 		font-family:"BO NX Medium";
 		color: #F2AE3A;
 		font-size: 192px;
@@ -15,18 +63,68 @@
 			0 0 5px #f28430,
 			0 0 10px #f28430,
 			0 0 90px #f2ae79;
-
+		animation-name: fadein;
+		animation-duration: 1s;
+		animation-fill-mode: forwards;
 	}
-	.frame { position: absolute; top: -10px; left:0; width: 100%; z-index: 0; font-family:"BO NX Frame"; color: #F2AE3A; opacity:0.4; font-size: 192px; text-align: center; padding: 75px 0; }
-	.glow { position: absolute; top: 0; left:0; width: 100%; z-index: 2; font-family:"BO NX Silhouette"; color: #DC2A1B; opacity:0.15; font-size: 192px; text-align: center; padding: 75px 0; }
+	
+	.num-out {
+		font-family:"BO NX Medium";
+		color: #F2AE3A;
+		font-size: 192px;
+		z-index: 3;
+		text-align: center;
+		padding: 75px 0;
+		text-shadow:
+			0 0 5px #f28430,
+			0 0 10px #f28430,
+			0 0 90px #f2ae79;
+		animation-name: fadeout;
+		animation-duration: 1s;
+		animation-fill-mode: forwards;
+	}
+	
+	.frame {
+		position: absolute;
+		top: -10px;
+		left:0;
+		width: 100%;
+		z-index: 0;
+		font-family:"BO NX Frame";
+		color: #F2AE3A;
+		opacity:0.4;
+		font-size: 192px;
+		text-align: center;
+		padding: 75px 0;
+		animation-name: flicker;
+		animation-duration: 2s;
+		animation-fill-mode: forwards;
+	}
+	.glow {
+		position: absolute;
+		top: 0;
+		left:0;
+		width: 100%;
+		z-index: 2;
+		font-family:"BO NX Silhouette";
+		color: #DC2A1B;
+		opacity:0;
+		font-size: 192px;
+		text-align: center;
+		padding: 75px 0;
+		animation-name: flicker2;
+		animation-duration: 1.5s;
+		animation-delay: 0.5s;
+		animation-fill-mode: forwards;
+	}
 </style>
 <title>world.measure();</title>
 </head>
 <body onclick="switchMode()">
 <p class="num">
-0.123456
+        
 <p class="frame">0.123456</p>
-<p class="glow">0.123456</p>
+<p class="glow">00:00:00</p>
 </p>
 
 </body>
@@ -39,19 +137,37 @@ function switchMode(){
 	if (mode<3) mode+=1;
 	else mode=1;
 	world=String(Math.random()).substr(0,8);
+	if (document.getElementsByClassName("num").length!=0)
+	{ document.getElementsByClassName("num")[0].className = "num-out"; }
+	else
+	{ document.getElementsByClassName("num-in")[0].className = "num-out"; }
+    document.getElementsByClassName("num-out")[0].addEventListener('animationEnd',function(){
+		document.getElementsByClassName("num-out")[0].className = "num-in";
+		setTime();
+    });
+	document.getElementsByClassName("num-out")[0].addEventListener('webkitAnimationEnd',function(){
+		document.getElementsByClassName("num-out")[0].className = "num-in";
+		setTime();
+    });
 }
 
 function setTime(){
-var date = new Date();
-var date1 = date.toLocaleString("en-CA").split(',')[0].replace(RegExp("-","g"),"");
-var date2 = date.toLocaleTimeString()
-var date3 = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
-var num = document.getElementsByClassName("num")[0];
-console.log(date2)
-if (mode==2) { num.innerHTML = date1; }
-else if (mode==1) { num.innerHTML = date2; }
-else if (mode==3) { num.innerHTML = world; }
+	var date = new Date();
+	var date1 = date.toLocaleString("en-CA").split(',')[0].replace(RegExp("-","g"),"");
+	var date2 = date.toLocaleTimeString()
+	var date3 = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+	
+	if (document.getElementsByClassName("num").length!=0)
+	{ var num = document.getElementsByClassName("num")[0]; }
+	else
+	{ var num = document.getElementsByClassName("num-in")[0]; }
+	
+	var glow = document.getElementsByClassName("glow")[0];
+	if (mode==2) { num.innerHTML = date1; glow.innerHTML = "00000000"; }
+	else if (mode==1) { num.innerHTML = date2; glow.innerHTML = "00:00:00"; }
+	else if (mode==3) { num.innerHTML = world; glow.innerHTML = "0.000000"; }
 }
+
 setInterval("setTime()",1000);
 
 </script>
