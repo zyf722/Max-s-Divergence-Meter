@@ -169,7 +169,7 @@ function switchMode(){
 function setTime(){
 	var date = new Date();
 	var date1 = date.toLocaleString("en-CA").split(',')[0].replace(RegExp("-","g"),"");
-	var date2 = date.toLocaleTimeString()
+	var date2 = date.toLocaleString("en-IE").split(', ')[1]
 	var date3 = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
 	
 	if (document.getElementsByClassName("num").length!=0)
