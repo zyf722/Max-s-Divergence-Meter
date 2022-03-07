@@ -137,9 +137,9 @@ function switchMode(){
 	world=String(Math.random()*10).substr(0,8);
 	var num = document.getElementsByClassName("num")[0];
 	var num_in = document.getElementsByClassName("num-in")[0];
-	var num_out = document.getElementsByClassName("num-out")[0];
 	if (num!=undefined) num.className = "num-out";
 	else num_in.className = "num-out"; 
+	var num_out = document.getElementsByClassName("num-out")[0];
     num_out.addEventListener('animationEnd',function(){
 		num_out.className = "num-in"; setTime();
     });
@@ -153,8 +153,8 @@ function setTime(){
 	var date = d.toLocaleString("en-CA").split(',')[0].replace(RegExp("-","g"),"");
 	var time = d.toLocaleString("en-IE").split(', ')[1]
 	var date3 = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())
-	if (document.getElementsByClassName("num").length!=0) num = document.getElementsByClassName("num")[0];
-	else num = document.getElementsByClassName("num-in")[0];
+	if (document.getElementsByClassName("num").length!=0) var num = document.getElementsByClassName("num")[0];
+	else var num = document.getElementsByClassName("num-in")[0];
 	var glow = document.getElementsByClassName("glow")[0];
 	if (mode==1) { num.innerHTML = time; glow.innerHTML = "00:00:00"; }
 	else if (mode==2) { num.innerHTML = date; glow.innerHTML = "00000000"; }
