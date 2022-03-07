@@ -129,12 +129,12 @@
 <script type="text/javascript">
 
 var mode=1;
-var world=String(Math.random()).substr(0,8); // Steins;Gate worldline divergence
+var world=String(Math.random()*10).substr(0,8); // Steins;Gate worldline divergence
 
 function switchMode(){
 	if (mode<3) mode+=1;
 	else mode=1;
-	world=String(Math.random()).substr(0,8);
+	world=String(Math.random()*10).substr(0,8);
 	var num = document.getElementsByClassName("num")[0];
 	var num_in = document.getElementsByClassName("num-in")[0];
 	var num_out = document.getElementsByClassName("num-out")[0];
